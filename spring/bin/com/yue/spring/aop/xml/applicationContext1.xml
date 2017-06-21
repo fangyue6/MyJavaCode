@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+  
+      <bean id="personDao" class="cn.itcast.spring0401.aop.xml.PersonDaoImpl"></bean>
+	  <bean id="transaction" class="cn.itcast.spring0401.aop.xml.Transaction"></bean>
+	 	<bean id="logger" class="cn.itcast.spring0401.aop.xml.Logger"></bean>
+	  <aop:config>
+	  	<aop:pointcut  id="perform" expression="execution(* cn.itcast.spring0401.aop.xml.PersonDaoImpl.*(..))"/>
+	  	<aop:aspect ref="transaction">
+	  		<aop:before method="beginTransaction" pointcut-ref="perform"/>
+	  	</aop:aspect>
+	  	
+	  	<aop:aspect ref="logger">
+	  		<aop:before method="logging" pointcut-ref="perform"/>
+	  	</aop:aspect>
+	  </aop:config>
+</beans>

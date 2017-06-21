@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<!-- 
+		类扫描的注解解析器
+		事务的注解解析器
+	-->
+	<!-- 
+		dataSource
+	-->
+	<bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driverClassName}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<value>
+				classpath:com/yue/spring/hibernate/transaction/annotation/jdbc.properties
+			</value>
+		</property>
+	</bean>
+	<!-- 
+		sessionFactory
+	-->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources">
+			<list>
+				<value>com/yue/spring/hibernate/transaction/annotation/Person.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQLDialect
+			</value>
+		</property>
+
+	</bean>
+	<!-- 
+		hibernateTemplate
+	 -->
+	 <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+	 	<property name="sessionFactory">
+	 		<ref bean="sessionFactory"/>
+	 	</property>
+	 </bean>
+	<!-- 
+		事务管理器
+	-->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	<context:component-scan
+		base-package="com.yue.spring.hibernate.transaction.annotation">
+	</context:component-scan>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+</beans>

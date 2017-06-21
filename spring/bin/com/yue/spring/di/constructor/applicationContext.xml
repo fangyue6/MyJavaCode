@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    <!-- 
+    	把person和student纳入spring容器中
+     -->
+     <bean id="person" class="com.yue.spring.di.constructor.Person">
+     <!-- 
+     		定义person中的构造器
+     		用<constructor-arg></constructor-arg>来确定唯一的构造器
+     		index 
+     		  参数的索引值
+     		ref 
+     		  给引用类型赋值
+     		value
+     		  给基本类型赋值
+     	 -->
+     	<constructor-arg index="0" value="aaaa"></constructor-arg>
+     	<constructor-arg index="1" value="sss"></constructor-arg>
+     	<constructor-arg index="2" ref="student"></constructor-arg>
+     </bean>
+     <bean id="student" class="com.yue.spring.di.constructor.Student"></bean>
+</beans>

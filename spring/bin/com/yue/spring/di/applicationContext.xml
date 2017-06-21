@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    <!-- 
+    	把person和student纳入spring容器中
+     -->
+     <bean id="person" class="com.yue.spring.di.Person">
+     	<!-- 
+     		property代表Person类的一个属性
+     		   name 为属性的名称
+     		   value 属性的值
+     		   String类型和基本类型(基本类型)是用value来进行赋值的
+     	 -->
+     	<property name="pid" value="2"></property>
+     	<property name="pname" value="里活命"></property>
+     	<property name="student">
+     		<!-- 
+     			利用ref给对象赋值
+     		 -->
+     		<ref bean="student"/>
+     	</property>
+     	<property name="lists">
+     		<list>
+     			<value>
+     				list1
+     			</value>
+     			<value>
+     				list2
+     			</value>
+     			<ref bean="student"/>
+     		</list>
+     	</property>
+     	<property name="sets">
+     		<set>
+     			<value>
+     				set1
+     			</value>
+     			<value>
+     				set2
+     			</value>
+     			<ref bean="student"/>
+     		</set>
+     	</property>
+     	<property name="maps">
+     		<map>
+     			<entry key="entry1">
+     				<value>
+     					aaa
+     				</value>
+     			</entry>
+     			<entry key="entry2">
+     				<value>
+     					bbb
+     				</value>
+     			</entry>
+     			<entry key="entry3">
+     				<ref bean="student"/>
+     			</entry>
+     		</map>
+     	</property>
+     	
+     	<property name="properties">
+     		<props>
+     			<prop key="prop1">
+     				prop1
+     			</prop>
+     			<prop key="prop2">
+     				prop2
+     			</prop>
+     		</props>
+     	</property>
+     	<!-- 
+     		定义person中的构造器
+     		用<constructor-arg></constructor-arg>来确定唯一的构造器
+     		index 
+     		  参数的索引值
+     		ref 
+     		  给引用类型赋值
+     		value
+     		  给基本类型赋值
+     	 -->
+     	<constructor-arg value="name"></constructor-arg>
+     	<constructor-arg value="sssss"></constructor-arg>
+     	<constructor-arg ref="student"></constructor-arg>
+     </bean>
+     <bean id="student" class="com.yue.spring.di.Student"></bean>
+</beans>

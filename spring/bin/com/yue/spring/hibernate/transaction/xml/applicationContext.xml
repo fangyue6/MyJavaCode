@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	<!-- 
+		1、目标类
+		2、通知
+		3、进行aop的配置
+	 -->
+	 <!-- 
+	 	从程序员的角度出发写
+	  -->
+	  <!-- 
+	  	准备sessionFactory
+	  		* sessionFactory功能：
+	  		  *、肯定有hibernate中sessionFactory的功能
+	  		  *、LocalSessionFactoryBean有di的功能
+	  		* spring产生sessionFactory有两种方式
+	  		   *  <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+				    <property name="dataSource" ref="myDataSource"/>
+				    <property name="mappingResources">
+				      <list>
+				        <value>product.hbm.xml</value>
+				      </list>
+				    </property>
+				    <property name="hibernateProperties">
+				      <value>
+				        hibernate.dialect=org.hibernate.dialect.HSQLDialect
+				      </value>
+				    </property>
+				  </bean>
+				*  引入hibernate的配置文件的方式
+				     <property name="configLocation">
+			   			<value>classpath:cn/itcast/spring0401/hibernate/transaction/xml/hibernate.cfg.xml</value>
+			   		</property>
+	   -->
+	   <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+	   		<property name="configLocation">
+	   			<value>classpath:com/yue/spring/hibernate/transaction/xml/hibernate.cfg.xml</value>
+	   		</property>
+	   </bean>
+	  <bean id="personDao" class="com.yue.spring.hibernate.transaction.xml.PersonDaoImpl">
+	  	<property name="sessionFactory">
+	  		<ref bean="sessionFactory"/>
+	  	</property>
+	  </bean>
+	  
+	  <bean id="personService" class="com.yue.spring.hibernate.transaction.xml.PersonServiceImpl">
+	  	<property name="personDao">
+	  		<ref bean="personDao"/>
+	  	</property>
+	  </bean>
+	  
+	  <!-- 
+	  	spring容器的角度出发写
+	   -->
+	  <aop:config>
+	  	<aop:pointcut expression="execution(* com.yue.spring.hibernate.transaction.xml.PersonServiceImpl.*(..))" id="perform"/>
+	  	<aop:advisor pointcut-ref="perform" advice-ref="tx"/>
+	  </aop:config>
+	  
+	  <!-- 
+	  	通知
+	   -->
+	   <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	   		<property name="sessionFactory">
+	   			<ref bean="sessionFactory"/>
+	   		</property>
+	   </bean>
+	   <tx:advice id="tx" transaction-manager="transactionManager">
+	   		<tx:attributes>
+	   			<tx:method name="update*" isolation="DEFAULT" propagation="REQUIRED" read-only="false"/>
+	   			<tx:method name="save*" isolation="DEFAULT" propagation="REQUIRED" read-only="false"/>
+	   			<tx:method name="delete*" isolation="DEFAULT" propagation="REQUIRED" read-only="false"/>
+	   			<tx:method name="*" isolation="DEFAULT" propagation="REQUIRED" read-only="true"/>
+	   		</tx:attributes>
+	   </tx:advice>
+</beans>

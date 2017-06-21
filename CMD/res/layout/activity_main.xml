@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffe1e0de"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+
+    <EditText
+        android:id="@+id/cmd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="请输入cmd命令" >
+         <requestFocus />
+    </EditText>
+
+<!--     <EditText
+        android:id="@+id/bianma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/cmd"
+        android:layout_below="@+id/cmd"
+        android:ems="10"
+        android:hint="请输入编码(默认utf8)" >
+    </EditText> -->
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/cmd"
+        android:layout_below="@+id/bianma"
+        android:layout_marginRight="17dp"
+        android:text="开始" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="288dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="46dp"
+        android:text="显示cmd命令结果"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</LinearLayout>

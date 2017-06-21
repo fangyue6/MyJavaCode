@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+  <!-- 
+  		1、导入基于注解的xsd
+  			 xmlns:context="http://www.springframework.org/schema/context"
+  			 http://www.springframework.org/schema/context
+             http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        2、导入类扫描的注解解析器
+        	<context:component-scan base-package=""></context:component-scan>
+   -->
+   <!-- 
+   		原理：
+   		   *  类扫描的注解解析器包含了依赖注入的注解解析器
+   		   *  原理：
+   		       当启动spring容器的时候，
+   		          ApplicationContext context = new 
+   		                  ClassPathXmlApplicationContext("cn/itcast/spring0401/
+   		                  scan/applicationContext.xml");
+   		      spring容器会加载配置文件，并且解析配置文件，就会解析到
+   		          *    类扫描的注解解析器，会在base-package包及子包中扫描所有的类
+		   		      *  检查类上是否有@Compontent注解
+		   		         *  如果有
+		   		             *  @Compontent是否有value属性
+		   		                 *  没有value属性
+		   		                          则会把这个注解所在的类的类名的第一个字母变成小写，其余的不变当做bean的id
+		   		                 *  如果有value属性
+		   		                          则value属性的值就是bean的id
+		   		          *  如果没有
+   		          *   类扫描注解解析完以后，所有的在base-package包及子包下的带有@Compontent注解的类就被纳入spring管理了
+   		          *   在纳入spring管理的类中扫描各个属性，看属性是否有@Resource，再根据这个注解的规则进行操作。
+                  *   扫描的次数：
+                         *  根据base-package包及子包进行扫描
+                         *  扫描纳入spring管理的所有的bean的属性
+                         *  属性的name的值和bean中的id进行匹配
+    -->
+   <context:component-scan base-package="com.yue.spring.scan"></context:component-scan>
+   
+</beans>

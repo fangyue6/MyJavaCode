@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.record.mapper.ContactMapper" >
+  <resultMap id="BaseResultMap" type="com.record.pojo.Contact" >
+    <id column="schoolID" property="schoolid" jdbcType="VARCHAR" />
+    <result column="teacherNumber" property="teachernumber" jdbcType="VARCHAR" />
+    <result column="studentNumber" property="studentnumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    schoolID, teacherNumber, studentNumber
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.record.pojo.ContactExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from contact
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from contact
+    where schoolID = #{schoolid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from contact
+    where schoolID = #{schoolid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.record.pojo.ContactExample" >
+    delete from contact
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.record.pojo.Contact" >
+    insert into contact (schoolID, teacherNumber, studentNumber
+      )
+    values (#{schoolid,jdbcType=VARCHAR}, #{teachernumber,jdbcType=VARCHAR}, #{studentnumber,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.record.pojo.Contact" >
+    insert into contact
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="schoolid != null" >
+        schoolID,
+      </if>
+      <if test="teachernumber != null" >
+        teacherNumber,
+      </if>
+      <if test="studentnumber != null" >
+        studentNumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="schoolid != null" >
+        #{schoolid,jdbcType=VARCHAR},
+      </if>
+      <if test="teachernumber != null" >
+        #{teachernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="studentnumber != null" >
+        #{studentnumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.record.pojo.ContactExample" resultType="java.lang.Integer" >
+    select count(*) from contact
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update contact
+    <set >
+      <if test="record.schoolid != null" >
+        schoolID = #{record.schoolid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teachernumber != null" >
+        teacherNumber = #{record.teachernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentnumber != null" >
+        studentNumber = #{record.studentnumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update contact
+    set schoolID = #{record.schoolid,jdbcType=VARCHAR},
+      teacherNumber = #{record.teachernumber,jdbcType=VARCHAR},
+      studentNumber = #{record.studentnumber,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.record.pojo.Contact" >
+    update contact
+    <set >
+      <if test="teachernumber != null" >
+        teacherNumber = #{teachernumber,jdbcType=VARCHAR},
+      </if>
+      <if test="studentnumber != null" >
+        studentNumber = #{studentnumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where schoolID = #{schoolid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.record.pojo.Contact" >
+    update contact
+    set teacherNumber = #{teachernumber,jdbcType=VARCHAR},
+      studentNumber = #{studentnumber,jdbcType=VARCHAR}
+    where schoolID = #{schoolid,jdbcType=VARCHAR}
+  </update>
+</mapper>

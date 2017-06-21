@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+     <!-- 
+    	init-method
+    	   对象的初始化方法
+    	destroy-method
+    	   对象的销毁方法
+    	   
+    	   singleton  单例  默认
+     	   prototype  原型  多例
+     -->
+    <bean id="helloWorld" class="com.yue.spring.initdestory.HelloWorld" init-method="init" destroy-method="destroy" scope="prototype"></bean>
+</beans>

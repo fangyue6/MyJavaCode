@@ -1,0 +1,2 @@
+shift+alt+L  快速返回类型
+ctrl+h  替换

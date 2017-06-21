@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+   <!-- 
+   		把ReadDocument纳入到spring容器
+   		把WordDocument纳入到spring容器
+    -->
+    <bean id="readDocument" class="com.yue.spring.ex.ReadDocument">
+    	<property name="document">
+    		<ref bean="wordDocument"/>
+    	</property>
+    </bean>
+    
+    <bean id="wordDocument" class="com.yue.spring.ex.WordDocument"></bean>
+</beans>

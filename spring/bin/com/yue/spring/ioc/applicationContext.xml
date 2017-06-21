@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    <!-- 
+    	把HelloWorld这个类纳入spring容器
+    		id为bean的唯一标识
+    	   		正规的写法：
+    	     		类的第一个字母变成小写，其余不变
+    		class为类的全名
+     -->
+    <bean id="helloWorld" class="com.yue.spring.ioc.HelloWorld"></bean>
+</beans>

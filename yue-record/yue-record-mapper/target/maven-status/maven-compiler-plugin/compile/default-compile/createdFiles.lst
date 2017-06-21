@@ -1,0 +1,5 @@
+com\record\mapper\ContactMapper.class
+com\record\mapper\StudentMapper.class
+com\record\mapper\AchievementMapper.class
+com\record\mapper\TeacherMapper.class
+com\record\mapper\SchoolMapper.class
