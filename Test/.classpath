@@ -6,5 +6,8 @@
 	<classpathentry kind="lib" path="lib/commons-io-2.5.jar"/>
 	<classpathentry kind="lib" path="lib/netty-all-4.1.12.Final.jar"/>
 	<classpathentry kind="lib" path="lib/netty-all-4.1.12.Final-sources.jar"/>
+	<classpathentry kind="lib" path="lib/libtensorflow_jni-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/libtensorflow-1.2.1.jar" sourcepath="C:/Users/admin/.m2/repository/org/tensorflow/libtensorflow/1.2.1/libtensorflow-1.2.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/tensorflow-1.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

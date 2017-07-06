@@ -27,7 +27,7 @@ public class DoTest extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String bat = request.getParameter("bat");
+		String bat = request.getParameter("bat");//1 open    else close
 		System.out.println("bat:"+bat);
 
 		InvokeBat2 test1 = new InvokeBat2(); 

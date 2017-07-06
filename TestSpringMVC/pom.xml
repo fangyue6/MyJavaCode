@@ -24,6 +24,9 @@
 		</plugins>
 	</build>
 	<properties>
+	   <maven.compiler.source>1.7</maven.compiler.source>
+       <maven.compiler.target>1.7</maven.compiler.target>
+	
 		<java-version>1.7</java-version>
 		<junit-version>4.8.2</junit-version>
 		<org.springframework-version>3.2.4.RELEASE</org.springframework-version>
@@ -50,6 +53,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+		<dependency>
+         <groupId>org.tensorflow</groupId>
+         <artifactId>tensorflow</artifactId>
+         <version>1.2.1</version>
+       </dependency>
+	
 		<!-- with junit4.8.2 -->
 		<dependency>
 			<groupId>junit</groupId>
