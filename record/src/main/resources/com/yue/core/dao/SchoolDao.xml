@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yue.core.dao.SchoolDao">
+	<!-- resultMap -->
+	<resultMap type="School" id="school">
+		<result column="schoolID" property="schoolID" />
+		<result column="schoolName" property="schoolName" />
+		<result column="schoolCollege" property="schoolCollege" />
+		<result column="schoolMajor" property="schoolMajor" />
+	</resultMap>
+
+
+	<!-- 添加学校数据 -->
+	<insert id="addSchool" parameterType="School">
+		insert into school
+		(schoolID,schoolName,schoolCollege,schoolMajor)
+		values
+		(#{schoolID},#{schoolName},#{schoolCollege},#{schoolMajor})
+	</insert>
+
+	<!-- 查询所有学校 get* -->
+	<select id="getAllSchool" resultMap="school">
+		select  DISTINCT schoolID,schoolName
+		from school GROUP BY schoolID
+	</select>
+</mapper>

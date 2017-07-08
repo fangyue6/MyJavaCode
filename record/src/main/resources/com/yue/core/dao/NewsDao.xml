@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yue.core.dao.NewsDao">
+	<!-- resultMap -->
+	<resultMap type="News" id="news">
+		<result column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="abstract" property="abstracts" />
+		<result column="reporter" property="reporter" />
+		<result column="reporttitle" property="reporttitle" />
+		<result column="organizer" property="organizer" />
+		<result column="contentintroduction" property="contentintroduction" />
+		<result column="reporterintroduction" property="reporterintroduction" />
+		<result column="reporterindex" property="reporterindex" />
+		<result column="time" property="time" />
+		<result column="pic" property="pic" />
+	</resultMap>
+	<!-- 成果新闻 get* -->
+	<select id="getNewsListWithPage" parameterType="News" resultMap="news">
+		select
+		id,
+		title,
+		abstract,
+		reporter,
+		reporttitle,
+		organizer,
+		contentintroduction ,
+		reporterintroduction,
+		reporterindex,
+		time,
+		pic
+		from
+		news
+		<!-- <where>
+			<if test="pic != null and pic!=''">
+			    pic=pic
+			</if>
+		</where> -->
+		order by id desc
+		limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询新闻 总记录数 -->
+	<select id="getNewsCount" parameterType="News" resultType="Integer">
+		select count(1)
+		from news
+	</select>
+
+	<!-- 添加新闻 -->
+	<insert id="addNews" parameterType="News">
+		insert into news
+		<trim prefix="(" suffix=")">
+			title,
+			abstract,
+			reporter,
+			reporttitle,
+			organizer,
+			contentintroduction ,
+			reporterintroduction,
+			reporterindex,
+			time,
+			pic
+		</trim>
+		values
+		<trim prefix="(" suffix=")">
+			#{title},
+			#{abstracts},
+			#{reporter},
+			#{reporttitle},
+			#{organizer},
+			#{contentintroduction},
+			#{reporterintroduction},
+			#{reporterindex},
+			#{time},
+			#{pic}
+		</trim>
+	</insert>
+
+	<!-- 删除 通过主键 -->
+	<delete id="deleteNewsByKey" parameterType="Integer">
+		delete from news
+		<where>
+			id=#{id}
+		</where>
+	</delete>
+	<!-- 批量删除 -->
+	<delete id="deleteNewsByKeys" parameterType="Integer">
+		delete from news
+		<where>
+			id in
+			<!-- array换成list 如果是List<Integer> -->
+			<foreach collection="array" item="id" open="(" close=")"
+				separator=",">
+				${id}
+			</foreach>
+		</where>
+	</delete>
+	<!-- 修改 -->
+	<update id="updateNewsByKey" parameterType="News">
+		update news
+		<set>
+			<if test="title != null">
+				title= #{title},
+			</if>
+			<if test="abstracts != null">
+				abstract=#{abstracts},
+			</if>
+			<if test="reporter != null">
+				reporter=#{reporter},
+			</if>
+			<if test="reporttitle != null">
+				reporttitle=#{reporttitle},
+			</if>
+			<if test="organizer != null">
+				organizer=#{organizer},
+			</if>
+			<if test="contentintroduction != null">
+				contentintroduction=#{contentintroduction},
+			</if>
+			<if test="reporterindex != null">
+				reporterindex=#{reporterindex},
+			</if>
+			<if test="time != null">
+				time=#{time},
+			</if>
+			<if test="pic != null">
+				pic=#{pic}
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 通过id查询一个news对象 -->
+	<select id="getNewsByKey" parameterType="Integer" resultMap="news">
+		select
+		id,
+		title,
+		abstract,
+		reporter,
+		reporttitle,
+		organizer,
+		contentintroduction ,
+		reporterintroduction,
+		reporterindex,
+		time,
+		pic
+		from
+		news
+		<where>
+			id=#{id}
+		</where>
+
+	</select>
+	<!-- 得到所有新闻 -->
+	<select id="getAllNews" resultMap="news">
+		select
+		id,
+		title,
+		abstract,
+		reporter,
+		reporttitle,
+		organizer,
+		contentintroduction ,
+		reporterintroduction,
+		reporterindex,
+		time,
+		pic
+		from
+		news
+		order by time desc
+	</select>
+	<!-- 得到所有新闻 -->
+	<select id="get10News" resultMap="news">
+		select
+		id,
+		title,
+		abstract,
+		reporter,
+		reporttitle,
+		organizer,
+		contentintroduction ,
+		reporterintroduction,
+		reporterindex,
+		time,
+		pic
+		from
+		news
+		order by time desc
+		LIMIT 0,10
+	</select>
+
+</mapper>

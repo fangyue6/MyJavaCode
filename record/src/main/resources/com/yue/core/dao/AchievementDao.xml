@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yue.core.dao.AchievementDao">
+	<!-- resultMap -->
+	<resultMap type="Achievement" id="achievement">
+		<result column="id" property="id" />
+		<result column="schoolID" property="schoolID" />
+		<result column="studentNumber" property="studentNumber" />
+		<result column="time" property="time" />
+		<result column="title" property="title" />
+		<result column="describe" property="describe" />
+		<result column="code" property="code" />
+		<result column="essay" property="essay" />
+	</resultMap>
+	<!-- 成果品牌 get* -->
+	<select id="getAchieveListWithPage" parameterType="Achievement"
+		resultMap="achievement">
+		select
+		id,
+		schoolID,
+		studentNumber,
+		time,
+		title,
+		`describe`,
+		`code` ,
+		essay
+		from
+		achievement
+		<where>
+			<if test="studentNumber !=null">
+				studentNumber = #{studentNumber}
+			</if>
+		</where>
+		order by id desc
+		limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询品牌 总记录数 -->
+	<select id="getAchieveCount" parameterType="Achievement"
+		resultType="Integer">
+		select count(1)
+		from achievement
+		<where>
+			<if test="studentNumber !=null">
+				studentNumber = #{studentNumber}
+			</if>
+		</where>
+	</select>
+
+	<!-- 添加品牌 -->
+	<insert id="addAchieve" parameterType="Achievement">
+		insert into achievement
+		<trim prefix="(" suffix=")">
+			schoolID,studentNumber,time,title,`describe`,`code`,essay
+		</trim>
+		values
+		<trim prefix="(" suffix=")">
+			#{schoolID},
+			#{studentNumber},
+			#{time},
+			#{title},
+			#{describe},
+			#{code},
+			#{essay}
+		</trim>
+	</insert>
+
+	<!-- 删除 通过主键 -->
+	<delete id="deleteAchieveByKey" parameterType="Integer">
+		delete from achievement
+		<where>
+			id=#{id}
+		</where>
+	</delete>
+	<!-- 批量删除 -->
+	<delete id="deleteAchieveByKeys" parameterType="Integer">
+		delete from achievement
+		<where>
+			id in
+			<!-- array换成list 如果是List<Integer> -->
+			<foreach collection="array" item="id" open="(" close=")"
+				separator=",">
+				${id}
+			</foreach>
+		</where>
+	</delete>
+	<!-- 修改 -->
+	<update id="updateAchieveByKey" parameterType="Achievement">
+		update achievement
+		<set>
+			<if test="time != null">
+				time=#{time},
+			</if>
+			<if test="title != null">
+				title=#{title},
+			</if>
+			<if test="describe != null">
+				`describe`=#{describe},
+			</if>
+			<if test="code != null">
+				code=#{code},
+			</if>
+			<if test="essay != null">
+				essay=#{essay}
+			</if>
+		</set>
+		<where>
+			id=#{id}
+		</where>
+	</update>
+
+	<!-- 通过id查询一个成果对象 -->
+	<select id="getAchieveByKey" parameterType="Integer" resultMap="achievement">
+		select id,schoolID,studentNumber,time,title,`describe`,`code`,essay
+		from achievement
+		<where>
+			id=#{id}
+		</where>
+
+	</select>
+	<!-- 得到所有成果 -->
+	<select id="getAllAchievement" resultMap="achievement">
+		select id,schoolID,studentNumber,time,title,`describe`,`code`,essay
+		from
+		achievement
+	</select>
+
+	<!-- 通过studentNumber查询成果 -->
+	<select id="getAllAchievementByStudentNumber" resultMap="achievement">
+		select id,schoolID,studentNumber,time,title,`describe`,`code`,essay
+		from achievement
+		<where>
+			studentNumber=#{studentNumber}
+		</where>
+	</select>
+</mapper>

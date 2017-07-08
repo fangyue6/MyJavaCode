@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bootstrap Modals Example</title>
+<meta name="description" content="Creating Modal Window with Bootstrap">
+
+</head>
+<script
+	src="http://www.runoob.com/try/bootstrap/twitter-bootstrap-v2/docs/assets/js/jquery.js"></script>
+<script
+	src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+<!-- <script type="text/javascript">  
+    var jQuery_1_7_1 = $.noConflict(true);      
+     alert(jQuery_1_7_1.fn.jquery); 
+</script>  -->
+
+<script>
+	/*$.ajax({
+
+		type : 'POST',
+
+		url : "/upload/index.do",
+
+		dataType : 'json',
+
+		success : function(data) {
+			console.log(data);
+		},
+		error : function() {
+			alert('error');
+		}
+	});*/
+
+	var app = angular.module('myApp', []);
+
+	app.controller('myCtrl', function($scope, $http) {
+		// $scope.carname = "Volvo";
+		$http({
+			url : '/upload/index.do',
+			method : 'POST',
+			dataType : 'json'
+		}).success(function(data, header, config, status) {
+			//响应成功
+			$scope.status='success';
+			$scope.data=data;
+			console.log(data);
+		}).error(function(data, header, config, status) {
+			//处理响应失败
+			alert('error');
+		});
+	});
+</script>
+<body>
+	<div ng-app="myApp" ng-controller="myCtrl">
+
+		<h1>{{status}}</h1>
+
+			<img ng-repeat="news in data" src="{{news.pic1 }}" alt="{{news.title }}" /> 
+
+
+	</div>
+</body>
+</html>

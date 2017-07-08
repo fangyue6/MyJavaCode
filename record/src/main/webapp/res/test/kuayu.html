@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>测试跨域上传文件  </title>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../common/js/jquery.form.js"></script>
+</head>
+<script type="text/javascript">
+//-------------------------------------------
+// 原生js跨域  上传文件
+function upload_js(formid,url) {
+	//formid =jvForm2
+	// url=/upload/uploadPic.do
+	var fd = new FormData(document.getElementById(formid));
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "http://127.0.0.1:8088"+url, "true");
+	xhr.onreadystatechange = function() {
+		if (this.readyState == 4) {
+			var res=this.responseText;
+		console.log(JSON.parse(res).result[0].url);
+		$("#showcontent").append("Result:<a href='"+JSON.parse(res).result[0].url+"'>" +"查看</a>")
+		alert("上传成功");
+			//document.getElementById("debug").innerHTML = this.responseText;
+		}
+	}
+	//获取文件对象
+	//var pic = document.getElementsByTagName("input")[4].files[0];
+	//fd2.append(pic.name, pic);
+	xhr.send(fd);
+}
+//--------------------------------------------------------------------------------
+$(function() {
+
+	/*  
+		//简写形式，效果相同  
+		$.getJSON("http://app.example.com/base/json.do?sid=1494&busiId=101&jsonpCallback=?",  
+		        function(data){  
+		            $("#showcontent").text("Result:"+data.result)  
+		});  
+		 */
+		$.ajax({
+			type : "get",
+			async : false,
+			url : "http://127.0.0.1:8088/base/jsonp.do?sid=1494&busiId=101",
+			dataType : "jsonp",//数据类型为jsonp  
+			jsonp : "jsonpCallback",//服务端用于接收callback调用的function名的参数  
+			success : function(data) {
+				$("#showcontent").text("Result:" + data.result)
+			},
+			error : function() {
+				alert('fail');
+			}
+		});
+	});
+//---------------------------------------------------------------
+	//上传图片  跨域  jquery ajax json
+	function uploadPic() {
+		//定义参数
+		var options = {
+			url : "http://127.0.0.1:8088/upload/uploadPic.do",///record  base/json.do
+			dataType : "json",
+			type : "post",
+			success : function(data) {
+				$("#showcontent").text("Result:" + data.result)
+				console.log(data);
+				alert("success");
+			},
+			error : function(msg) {
+				console.log(msg);
+				alert("error");
+			}
+		};
+		//jquery.form使用
+		$("#jvForm1").ajaxSubmit(options);
+	}
+	//上传代码  跨域  jquery ajax json
+	function uploadCode() {
+		//定义参数
+		var options = {
+			url : "http://127.0.0.1:8088/upload/uploadCode.do",
+			dataType : "json",
+			type : "post",
+			success : function(data) {
+				$("#showcontent").text("Result:" + data.result)
+				console.log(data);
+				alert("success");
+			},
+			error : function(msg) {
+				console.log(msg);
+				alert("error");
+			}
+		};
+		//jquery.form使用
+		$("#jvForm2").ajaxSubmit(options);
+	}
+	
+	//上传文章   跨域  jquery ajax json
+	function uploadPic() {
+		//定义参数
+		var options = {
+			url : "http://127.0.0.1:8088/upload/uploadEssay.do",
+			dataType : "json",
+			type : "post",
+			success : function(data) {
+				$("#showcontent").text("Result:" + data.result)
+				console.log(data);
+				alert("success");
+			},
+			error : function(msg) {
+				console.log(msg);
+				alert("error");
+			}
+		};
+		//jquery.form使用
+		$("#jvForm3").ajaxSubmit(options);
+	}
+	
+	//上传新闻图片  跨域  jquery ajax json
+	function uploadNews() {
+		//定义参数
+		var options = {
+			url : "http://127.0.0.1:8088/upload/uploadNews.do",
+			dataType : "json",
+			type : "post",
+			success : function(data) {
+				$("#showcontent").text("Result:" + data.result)
+				console.log(data);
+				alert("success");
+			},
+			error : function(msg) {
+				console.log(msg);
+				alert("error");
+			}
+		};
+		//jquery.form使用
+		$("#jvForm4").ajaxSubmit(options);
+	}
+//---------------------------------------------------------------	
+	
+	
+	//上传图片  jsonp
+	function uploadPic_jsonp() {
+		//定义参数
+		var options = {
+			url : "http://127.0.0.1:8088/upload/uploadPic.do",///record  base/json.do
+			dataType : "jsonp",
+			type : "get",
+			jsonp : "jsonpCallback",//服务端用于接收callback调用的function名的参数  
+			success : function(data) {
+				$("#showcontent").text("Result:" + data.result)
+				console.log(data);
+				alert("success");
+			},
+			error : function(msg) {
+				console.log(msg);
+				alert("error");
+			}
+		};
+		//jquery.form使用
+		$("#jvForm").ajaxSubmit(options);
+	}
+</script>
+<body>
+	<form id="jvForm1" method="post" enctype="multipart/form-data">
+	<!-- multiple="multiple" -->
+		<input type="file" name="up_pic" /> 
+		<!-- <input type="file" name="up_pic" />  -->
+		<input type="text" name="time" />
+		<input type="text" name="studentNumber" /> 
+		<input type="button" onclick="upload_js('jvForm1','/upload/uploadPic.do')" value="测试上传图片" />
+	</form>
+	<hr>
+	<form id="jvForm2" method="post" enctype="multipart/form-data">
+	<!-- multiple="multiple" -->
+		<input type="file" name="upload_code" /> 
+		<!-- <input type="file" name="up_pic" />  -->
+		<input type="text" name="uploadtime" />
+		<input type="text" name="studentNumber" /> 
+		<input type="button" onclick="upload_js('jvForm2','/upload/uploadCode.do')" value="测试上传代码" />
+	</form>
+	<hr>
+	<form id="jvForm3" method="post" enctype="multipart/form-data">
+	<!-- multiple="multiple" -->
+		<input type="file" name="upload_essay" /> 
+		<!-- <input type="file" name="up_pic" />  -->
+		<input type="text" name="uploadtime" />
+		<input type="text" name="studentNumber" /> 
+		<input type="button" onclick="upload_js('jvForm3','/upload/uploadEssay.do')" value="测试上传文章" />
+	</form>
+	<hr>
+	<form id="jvForm4" method="post" enctype="multipart/form-data">
+	<!-- multiple="multiple" -->
+		<input type="file" name="upload_news" /> 
+		<!-- <input type="file" name="up_pic" />  -->
+		<input type="text" name="uploadtime" />
+		<input type="text" name="studentNumber" /> 
+		<input type="button" onclick="upload_js('jvForm4','/upload/uploadNews.do')" value="测试上传新闻图片" />
+	</form>
+	<div id="showcontent">Result:</div>
+</body>
+</html>

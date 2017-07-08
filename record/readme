@@ -1,0 +1,6 @@
+mvean 发布tomcat命令    clean tomcat7:redeploy -DskipTests
+修改Mysql链接配置  在 /src/main/resources/properties/jdbc.properties文件里面
+
+修改pom.xml 可以远程发布项目到哪个Tomcat服务器
+
+修改 /src/main/java/com/yue/core/web/Constants.java  可以配置资源链接地址

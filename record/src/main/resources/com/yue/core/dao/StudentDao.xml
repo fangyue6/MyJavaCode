@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yue.core.dao.StudentDao">
+	<!-- resultMap -->
+	<resultMap type="Student" id="student">
+		<result column="id" property="id" />
+		<result column="schoolID" property="schoolID" />
+		<result column="studentNumber" property="studentNumber" />
+		<result column="time" property="time" />
+		<result column="name" property="name" />
+		<result column="year" property="year" />
+		<result column="sex" property="sex" />
+		<result column="phone" property="phone" />
+		<result column="qq" property="qq" />
+		<result column="wechat" property="wechat" />
+		<result column="email" property="email" />
+		<result column="pic" property="pic" />
+		<result column="place" property="place" />
+		<result column="passwd" property="passwd" />
+		<result column="describe" property="describe" />
+		<result column="homepage" property="homepage" />
+		<result column="graduated" property="graduated" />
+		<result column="isshow" property="isshow" />
+		<result column="other" property="other" />
+	</resultMap>
+
+	<!-- 学生 get* 分页-->
+	<select id="getStudentListWithPage" parameterType="Student" resultMap="student">
+		select id,schoolID,studentNumber,time,name,year,sex,phone,qq,wechat,email,pic,place,passwd,`describe`,`homepage`,graduated,isshow,other
+		from student
+		order by studentNumber desc
+		limit #{startRow},#{pageSize}
+	</select>
+
+	<!-- 查询学生 总记录数 -->
+	<select id="getStudentCount" parameterType="Student" resultType="Integer">
+		select count(1)
+		from student
+	</select>
+	
+
+
+	<!-- 添加学生数据 -->
+	<insert id="addStudent" parameterType="Student">
+		insert into student
+		(schoolID,studentNumber,time,name,year,sex,phone,qq,wechat,email,pic,place,passwd,`describe`,`homepage`,graduated,isshow,other)
+		values
+		(#{schoolID},#{studentNumber},#{time},#{name},#{year},#{sex},#{phone},#{qq},#{wechat},#{email},#{pic},#{place},#{passwd},#{describe},#{homepage},#{graduated},#{isshow},#{other})
+	</insert>
+
+	<!-- 查询学生 get* -->
+	<select id="getStudent" parameterType="Student" resultMap="student">
+		select
+		id,schoolID,studentNumber,time,name,year,sex,phone,qq,wechat,email,pic,place,passwd,`describe`,`homepage`,graduated,isshow,other
+		from student
+		<where>
+			<!-- <if test="schoolID !=null"> schoolID = #{schoolID} </if> -->
+			<if test="studentNumber !=null">
+				studentNumber = #{studentNumber}
+			</if>
+			<if test="passwd !=null">
+				and passwd = #{passwd}
+			</if>
+		</where>
+	</select>
+	<!-- 查询学生 get*  通过id -->
+	<select id="getStudentById" parameterType="Integer" resultMap="student">
+		select
+		id,schoolID,studentNumber,time,name,year,sex,phone,qq,wechat,email,pic,place,passwd,`describe`,`homepage`,graduated,isshow,other
+		from student
+		<where>
+				id = #{id}
+		</where>
+	</select>
+
+
+	<!-- 修改学生信息 -->
+	<update id="updateStudent" parameterType="Student">
+		update student
+		<set>
+			<if test="time != null">
+				time=#{time},
+			</if>
+			<if test="name != null">
+				name=#{name},
+			</if>
+			<if test="year != null">
+				year=#{year},
+			</if>
+			<if test="sex != null">
+				sex=#{sex},
+			</if>
+			<if test="phone != null">
+				phone=#{phone},
+			</if>
+			<if test="qq != null">
+				qq=#{qq},
+			</if>
+			<if test="wechat != null">
+				wechat=#{wechat},
+			</if>
+			<if test="email != null">
+				email=#{email},
+			</if>
+			<if test="pic != null">
+				pic=#{pic},
+			</if>
+			<if test="place != null">
+				place=#{place},
+			</if>
+			<if test="passwd != null">
+				passwd=#{passwd},
+			</if>
+			<if test="describe != null">
+				`describe`=#{describe},
+			</if>
+			<if test="homepage != null">
+				`homepage`=#{homepage},
+			</if>
+			<if test="graduated != null">
+				`graduated`=#{graduated},
+			</if>
+			<if test="isshow != null">
+				`isshow`=#{isshow},
+			</if>
+			<if test="other != null">
+				`other`=#{other}
+			</if>
+		</set>
+		<where>
+			studentNumber=#{studentNumber}
+		</where>
+	</update>
+
+	<!-- 查询所有学生 getAllStudent -->
+	<select id="getAllStudent" resultMap="student">
+		select
+		id,schoolID,studentNumber,time,name,year,sex,phone,qq,wechat,email,pic,place,passwd,`describe`,`homepage`,graduated,isshow,other
+		from student
+	</select>
+	
+	<!-- 查询一个学生通过学号  getStudentByNumber -->
+		<select id="getStudentByNumber" parameterType="Student" resultMap="student">
+		select
+		id,schoolID,studentNumber,time,name,year,sex,phone,qq,wechat,email,pic,place,passwd,`describe`,`homepage`,graduated,isshow,other
+		from student
+		<where>
+			<!-- <if test="schoolID !=null"> schoolID = #{schoolID} </if> -->
+			<if test="studentNumber !=null">
+				studentNumber = #{studentNumber}
+			</if>
+			<if test="passwd !=null">
+				and passwd = #{passwd}
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 删除 通过主键 -->
+	<delete id="deleteStudentByKey" parameterType="Integer">
+		delete from student
+		<where>
+			id=#{id}
+		</where>
+	</delete>
+	<!-- 批量删除 -->
+	<delete id="deleteStudentByKeys" parameterType="Integer">
+		delete from student
+		<where>
+			id in
+			<!-- array换成list 如果是List<Integer> -->
+			<foreach collection="array" item="id" open="(" close=")"
+				separator=",">
+				${id}
+			</foreach>
+		</where>
+	</delete>
+</mapper>
